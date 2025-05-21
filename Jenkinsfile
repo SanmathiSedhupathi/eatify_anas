@@ -65,21 +65,25 @@ spec:
             }
         }
     }
+post {
+    success {
+        emailext (
+            subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """Build succeeded!
 
-    post {
-        success {
-            emailext(
-                subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Build succeeded!\n\nCheck it here: ${env.BUILD_URL}",
-                to: "${env.EMAIL_RECIPIENTS}"
-            )
-        }
-        failure {
-            emailext(
-                subject: "❌ FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "Build failed.\n\nCheck it here: ${env.BUILD_URL}",
-                to: "${env.EMAIL_RECIPIENTS}"
-            )
-        }
+Check it here: ${env.BUILD_URL}""",
+            to: "sanmathisedhupathi2004@gmail.com"
+        )
     }
+    failure {
+        emailext (
+            subject: "❌ FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """Build failed.
+
+Check it here: ${env.BUILD_URL}""",
+            to: "sanmathisedhupathi2004@gmail.com"
+        )
+    }
+}
+
 }

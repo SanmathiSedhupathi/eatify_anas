@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB_USERNAME = 'sanmathisedhupathi'
         DOCKERHUB_PASSWORD = '08-Sep-2004'
         IMAGE_NAME = 'sanmathisedhupathi/eatify'
-        EMAIL_RECIPIENTS = 'your-email@example.com' // change to your email
+        EMAIL_RECIPIENTS = 'sanmathisedhupathi2004@gmail.com' // change to your email
     }
 
     stages {

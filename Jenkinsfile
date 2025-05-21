@@ -5,24 +5,26 @@ pipeline {
         DOCKERHUB_USERNAME = 'sanmathisedhupathi'
         DOCKERHUB_PASSWORD = '08-Sep-2004'
         IMAGE_NAME = 'sanmathisedhupathi/eatify'
+        EMAIL_RECIPIENTS = 'your-email@example.com' // change to your email
     }
 
     stages {
-
-        stage('Build Docker Image') {
+        stage('Checkout') {
             steps {
-                script {
-                    sh 'docker build -t $IMAGE_NAME:${BUILD_NUMBER} .'
-                }
+                git 'https://github.com/your-username/your-repo.git' // Replace with your repo
             }
         }
 
-        stage('Login & Push to Docker Hub') {
+        stage('Build Docker Image') {
             steps {
-                script {
-                    sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
-                    sh "docker push $IMAGE_NAME:${BUILD_NUMBER}"
-                }
+                sh 'docker build -t $IMAGE_NAME:${BUILD_NUMBER} .'
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+                sh "docker push $IMAGE_NAME:${BUILD_NUMBER}"
             }
         }
 
@@ -65,6 +67,23 @@ spec:
                     sh 'kubectl apply -f k8s-deployment.yaml'
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            emailext(
+                subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Build succeeded!\n\nCheck it here: ${env.BUILD_URL}",
+                to: "${env.EMAIL_RECIPIENTS}"
+            )
+        }
+        failure {
+            emailext(
+                subject: "❌ FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Build failed.\n\nCheck it here: ${env.BUILD_URL}",
+                to: "${env.EMAIL_RECIPIENTS}"
+            )
         }
     }
 }

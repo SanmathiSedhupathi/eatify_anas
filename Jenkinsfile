@@ -8,11 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/SanmathiSedhupathi/eatify_anas.git'
-            }
-        }
 
         stage('Build Docker Image') {
             steps {

@@ -9,11 +9,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/your-username/your-repo.git' // Replace with your repo
-            }
-        }
+        
 
         stage('Build Docker Image') {
             steps {
